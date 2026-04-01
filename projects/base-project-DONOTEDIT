@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Title — Vincent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- ── Nav ── -->
+    <nav class="topnav">
+        <a href="../index.html" class="site-name">Vincent</a>
+        <a href="../index.html">&larr; All Projects</a>
+    </nav>
+
+    <!-- ── Project Header ── -->
+    <header class="project-hero">
+        <div class="project-meta">Project 01 &middot; Feb 2026</div>
+        <h1>Your Project Title Goes Here</h1>
+        <p class="subtitle">A brief subtitle or one-sentence summary that sets up the project scope and challenge.</p>
+        <div class="project-tags">
+            <span>Arduino</span>
+            <span>Motor Control</span>
+            <span>PID Tuning</span>
+        </div>
+    </header>
+
+    <!-- ── Hero Image ── -->
+    <div class="hero-image">
+        <img src="../assets/placeholder.svg" alt="Project hero image">
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         ARTICLE BODY — Copy/paste blocks as needed.
+         See SPEC.md for the full block reference.
+    ══════════════════════════════════════════════════════ -->
+    <article class="article">
+
+        <h2>Overview</h2>
+
+        <p>Write your project overview here. Explain the motivation, constraints, and your approach.</p>
+
+        <p>You can use <strong>bold text</strong> for emphasis and <code>inline code</code> for variables or function names.</p>
+
+        <div class="divider"></div>
+
+        <h2>Design & Analysis</h2>
+
+        <p>Describe your design process, calculations, or analytical work here.</p>
+
+        <!-- MATH (display) -->
+        <div class="math-block">
+            $$\tau = J\ddot{\theta} + b\dot{\theta} + mgl\sin(\theta)$$
+        </div>
+
+        <p>Inline math works too: $F = ma$ renders inside any paragraph.</p>
+
+        <!-- CALLOUT -->
+        <div class="callout">
+            <p><strong>Design note:</strong> Use callout boxes to highlight key insights or constraints.</p>
+        </div>
+
+        <h2>Implementation</h2>
+
+        <p>Walk through your build process, wiring, firmware, etc.</p>
+
+        <!-- SINGLE IMAGE -->
+        <figure>
+            <img src="../assets/placeholder.svg" alt="Descriptive alt text">
+            <figcaption>Fig 1 — Caption describing the image</figcaption>
+        </figure>
+
+        <!-- TWO IMAGES SIDE BY SIDE -->
+        <div class="image-grid">
+            <figure>
+                <img src="../assets/placeholder.svg" alt="Left image">
+                <figcaption>Fig 2a — Left caption</figcaption>
+            </figure>
+            <figure>
+                <img src="../assets/placeholder.svg" alt="Right image">
+                <figcaption>Fig 2b — Right caption</figcaption>
+            </figure>
+        </div>
+
+        <!-- CODE BLOCK -->
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-lang">Arduino C++</span>
+                <span class="code-filename">motor_control.ino</span>
+            </div>
+            <pre><code>void loop() {
+    int encoderPos = readEncoder();
+    float error = targetPos - encoderPos;
+    float output = Kp * error + Kd * (error - prevError) / dt;
+
+    setMotorPWM(constrain(output, -255, 255));
+    prevError = error;
+    delay(10);
+}</code></pre>
+        </div>
+
+        <h2>Testing & Results</h2>
+
+        <p>Discuss your testing methodology and results.</p>
+
+        <!-- VIDEO (YouTube) -->
+        <div class="video-embed">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+
+        <!-- WIDE IMAGE -->
+        <div class="wide">
+            <figure>
+                <img src="../assets/placeholder.svg" alt="Wide image">
+                <figcaption>Fig 3 — Use .wide for plots or panoramas</figcaption>
+            </figure>
+        </div>
+
+        <h2>Reflection</h2>
+
+        <p>Wrap up with what worked, what you'd change, and what you learned.</p>
+
+        <!-- FILE DOWNLOAD -->
+        <a href="../assets/example-report.pdf" class="file-download" download>
+            <div class="file-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <polyline points="9 15 12 18 15 15"/>
+                </svg>
+            </div>
+            <div class="file-info">
+                <div class="file-name">Full Report — Project_01_Report.pdf</div>
+                <div class="file-size">PDF · 2.4 MB</div>
+            </div>
+        </a>
+
+    </article>
+
+    <!-- ── Prev / Next ── -->
+    <nav class="project-nav">
+        <a href="project-01.html">
+            <span class="nav-label">&larr; Previous</span>
+            <span class="nav-title">Previous Project Title</span>
+        </a>
+        <a href="project-03.html">
+            <span class="nav-label">Next &rarr;</span>
+            <span class="nav-title">Next Project Title</span>
+        </a>
+    </nav>
+
+    <footer>
+        Vincent &middot; ME360 &middot; Boston University &middot; 2026
+    </footer>
+
+    <script src="../js/site.js"></script>
+
+</body>
+</html>
