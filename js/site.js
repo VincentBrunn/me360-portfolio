@@ -1,12 +1,11 @@
 /* ═══════════════════════════════════════════════════
    ME360 Portfolio — Shared Scripts
-   Handles: scroll reveal, nav hide-on-scroll, hero canvas, theme toggle
+   Handles: scroll reveal, nav hide-on-scroll, hero background paths, theme toggle
    ═══════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── Theme toggle ──
-    // Apply saved theme immediately (also handled by inline class in HTML for flash prevention)
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.documentElement.classList.add('light-mode');
@@ -19,10 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inject toggle button into every nav
     const nav = document.querySelector('.topnav');
     if (nav) {
-        // Find or create a .nav-right wrapper for the right-side items
         let navRight = nav.querySelector('.nav-right');
         if (!navRight) {
-            // Wrap the existing right-side link in .nav-right and append toggle
             const rightLink = nav.querySelector('a:last-child');
             navRight = document.createElement('div');
             navRight.classList.add('nav-right');
@@ -58,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggle.addEventListener('click', () => {
             const isLight = document.documentElement.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updatePathColors();
         });
     }
 
@@ -66,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Stagger cards on homepage, instant reveal on project pages
                 const el = entry.target;
                 if (el.classList.contains('project-card')) {
                     const idx = [...el.parentElement.children].indexOf(el);
@@ -79,123 +76,148 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.1 });
 
-    // Observe project cards on homepage
     document.querySelectorAll('.project-card').forEach(el => revealObserver.observe(el));
-    // Observe article children on project pages
     document.querySelectorAll('.article > *').forEach(el => revealObserver.observe(el));
 
 
     // ── Nav hide on scroll down, show on scroll up ──
     if (nav) {
         let lastScroll = 0;
-        const SCROLL_THRESHOLD = 80; // px before nav hides
+        const SCROLL_THRESHOLD = 80;
 
         window.addEventListener('scroll', () => {
             const currentScroll = window.scrollY;
-
-            // Always show nav at top of page
             if (currentScroll < SCROLL_THRESHOLD) {
                 nav.classList.remove('nav-hidden');
                 lastScroll = currentScroll;
                 return;
             }
-
-            // Scrolling down → hide
             if (currentScroll > lastScroll) {
                 nav.classList.add('nav-hidden');
-            }
-            // Scrolling up → show
-            else {
+            } else {
                 nav.classList.remove('nav-hidden');
             }
-
             lastScroll = currentScroll;
         }, { passive: true });
     }
 
 
-    // ── Hero canvas animation (only runs if canvas exists) ──
-    const canvas = document.getElementById('heroCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let w, h, particles;
-        const PARTICLE_COUNT = 50;
-        const MAX_DIST = 140;
+    // ── Background Paths Animation (homepage hero only) ──
+    const heroBg = document.querySelector('.hero-bg');
+    let allPaths = [];
 
-        function resize() {
-            w = canvas.width = canvas.offsetWidth * devicePixelRatio;
-            h = canvas.height = canvas.offsetHeight * devicePixelRatio;
-            ctx.scale(devicePixelRatio, devicePixelRatio);
+    if (heroBg) {
+        // Remove existing canvas
+        const oldCanvas = heroBg.querySelector('canvas');
+        if (oldCanvas) oldCanvas.remove();
+
+        const PATH_COUNT = 36;
+        const svgNS = 'http://www.w3.org/2000/svg';
+
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('viewBox', '0 0 1000 1000');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+        svg.style.cssText = 'width:100%;height:100%;position:absolute;top:0;left:0;';
+        heroBg.appendChild(svg);
+
+        // Generate a smooth bezier path for index i
+        function generatePathD(i, total, groupOffset) {
+            const yCenter = 500;
+            const verticalSpread = 250;
+            const t = i / total;
+            const yDrift = (t - 0.5) * verticalSpread;
+
+            // Organic variation per path
+            const wave1 = Math.sin(i * 0.8 + groupOffset) * 80;
+            const wave2 = Math.cos(i * 1.3 + groupOffset) * 60;
+            const wave3 = Math.sin(i * 0.5 + groupOffset * 2) * 70;
+            const wave4 = Math.cos(i * 0.6 + groupOffset) * 50;
+
+            const x0 = -50;
+            const y0 = yCenter + yDrift + wave1;
+            const cp1x = 200 + (i * 17) % 180;
+            const cp1y = yCenter + yDrift - 120 + wave2;
+            const cp2x = 650 - (i * 13) % 120;
+            const cp2y = yCenter + yDrift + 120 + wave3;
+            const x3 = 1050;
+            const y3 = yCenter + yDrift + wave4;
+
+            return `M ${x0} ${y0} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x3} ${y3}`;
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push({
-                    x: Math.random() * (w / devicePixelRatio),
-                    y: Math.random() * (h / devicePixelRatio),
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    r: Math.random() * 1.5 + 0.5,
-                    opacity: Math.random() * 0.5 + 0.2
-                });
+        // Two mirrored groups for symmetry
+        for (let group = 0; group < 2; group++) {
+            const g = document.createElementNS(svgNS, 'g');
+            if (group === 1) {
+                g.setAttribute('transform', 'translate(1000, 0) scale(-1, 1)');
+            }
+            svg.appendChild(g);
+
+            for (let i = 0; i < PATH_COUNT; i++) {
+                const path = document.createElementNS(svgNS, 'path');
+                const d = generatePathD(i, PATH_COUNT, group * 3.7);
+                path.setAttribute('d', d);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke-linecap', 'round');
+
+                // Progressive stroke width and base opacity for depth
+                const strokeWidth = 0.3 + (i / PATH_COUNT) * 1.5;
+                const baseOpacity = 0.02 + (i / PATH_COUNT) * 0.15;
+
+                path.setAttribute('stroke-width', strokeWidth.toFixed(2));
+                path.dataset.baseOpacity = baseOpacity.toFixed(3);
+                path.dataset.globalIndex = allPaths.length;
+
+                g.appendChild(path);
+                allPaths.push(path);
             }
         }
 
-        // Read particle color from the current accent — adapts to theme
-        function getParticleColor() {
-            const isLight = document.documentElement.classList.contains('light-mode');
-            // Slightly different alpha ranges for readability in each mode
-            return isLight
-                ? { r: 158, g: 124, b: 46, lineAlpha: 0.18, dotAlphaBase: 0.3 }
-                : { r: 200, g: 164, b: 94, lineAlpha: 0.12, dotAlphaBase: 0.2 };
-        }
+        // Apply stroke colors based on current theme
+        updatePathColors();
 
-        function draw() {
-            const cw = w / devicePixelRatio;
-            const ch = h / devicePixelRatio;
-            ctx.clearRect(0, 0, cw, ch);
+        // Animate via CSS keyframes — per-path unique timings
+        const styleEl = document.createElement('style');
+        let css = '';
 
-            const pc = getParticleColor();
+        allPaths.forEach((p, idx) => {
+            const totalLength = p.getTotalLength ? p.getTotalLength() : 2000;
+            const dashVisible = totalLength * 0.4;
+            const dashGap = totalLength * 0.6;
+            const duration = 20 + (idx % 15) * 1.2; // 20–38s
+            const delay = -(idx * 0.7); // negative = pre-stagger
 
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < MAX_DIST) {
-                        const alpha = (1 - dist / MAX_DIST) * pc.lineAlpha;
-                        ctx.strokeStyle = `rgba(${pc.r}, ${pc.g}, ${pc.b}, ${alpha})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
+            p.style.strokeDasharray = `${dashVisible} ${dashGap}`;
+            p.style.strokeDashoffset = `${totalLength}`;
 
-            // Draw & move particles
-            particles.forEach(p => {
-                ctx.fillStyle = `rgba(${pc.r}, ${pc.g}, ${pc.b}, ${p.opacity + pc.dotAlphaBase})`;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fill();
+            const name = `bgPath${idx}`;
+            css += `
+@keyframes ${name} {
+  0%   { stroke-dashoffset: ${totalLength}; opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { stroke-dashoffset: ${-totalLength}; opacity: 0; }
+}
+`;
+            p.style.animation = `${name} ${duration.toFixed(1)}s ease-in-out ${delay.toFixed(1)}s infinite`;
+        });
 
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0 || p.x > cw) p.vx *= -1;
-                if (p.y < 0 || p.y > ch) p.vy *= -1;
-            });
-
-            requestAnimationFrame(draw);
-        }
-
-        window.addEventListener('resize', () => { resize(); initParticles(); });
-        resize();
-        initParticles();
-        draw();
+        styleEl.textContent = css;
+        document.head.appendChild(styleEl);
     }
+
+    // Color updater — called on init and on theme toggle
+    function updatePathColors() {
+        const isLight = document.documentElement.classList.contains('light-mode');
+        const rgb = isLight ? '158, 124, 46' : '200, 164, 94';
+
+        allPaths.forEach(p => {
+            const opacity = parseFloat(p.dataset.baseOpacity);
+            p.setAttribute('stroke', `rgba(${rgb}, ${opacity})`);
+        });
+    }
+
+    // Expose globally so the toggle click handler can call it
+    window.updatePathColors = updatePathColors;
 
 });
