@@ -104,13 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ══════════════════════════════════════════════════
     //  Background Paths — homepage hero only
-    //  36 animated SVG bezier curves × 2 mirrored groups
+    //  Single-direction flow: left edge → wave down → exit bottom-right
+    //  Paths fan out from left-center, arc downward avoiding the
+    //  center text zone, and sweep out through the bottom-right.
     // ══════════════════════════════════════════════════
     const heroBg = document.querySelector('.hero-bg');
     const allPaths = [];
 
     if (heroBg) {
-        // Remove old canvas if present
         const oldCanvas = heroBg.querySelector('canvas');
         if (oldCanvas) oldCanvas.remove();
 
@@ -123,83 +124,91 @@ document.addEventListener('DOMContentLoaded', () => {
         svg.style.cssText = 'width:100%;height:100%;position:absolute;top:0;left:0;overflow:visible;';
         heroBg.appendChild(svg);
 
-        // Generate a smooth bezier path for index i
-        function generatePathD(i, total, seed) {
-            const yCenter = 500;
-            const spread = 300;
+        // ── Path shape ──
+        // Start: left edge, clustered around y ≈ 300–700 (mid-left)
+        // Flow: sweeps right and downward in a wave
+        // Avoid: center zone (~350-650 x, ~350-650 y) where text sits
+        // Exit: bottom-right quadrant (x > 800, y > 750)
+        //
+        // Each path uses two cubic bezier segments (M + C + S)
+        // to get the wave-then-sweep shape.
+
+        function generatePathD(i, total) {
             const t = i / total;
-            const yDrift = (t - 0.5) * spread;
 
-            const w1 = Math.sin(i * 0.8 + seed) * 90;
-            const w2 = Math.cos(i * 1.3 + seed) * 70;
-            const w3 = Math.sin(i * 0.5 + seed * 2) * 80;
-            const w4 = Math.cos(i * 0.6 + seed) * 60;
+            // ── Start point: left edge, spread vertically around center ──
+            const x0 = -60 - Math.random() * 40;
+            // Fan from y=250 to y=750, but cluster more toward middle
+            const yStart = 300 + t * 400 + Math.sin(i * 1.1) * 80;
 
-            const x0 = -100;
-            const y0 = yCenter + yDrift + w1;
-            const cp1x = 220 + (i * 19) % 200;
-            const cp1y = yCenter + yDrift - 140 + w2;
-            const cp2x = 620 - (i * 14) % 140;
-            const cp2y = yCenter + yDrift + 140 + w3;
-            const x3 = 1100;
-            const y3 = yCenter + yDrift + w4;
+            // ── First control: pulls right and slightly up (the "wave crest") ──
+            // Keep above center to arc over the text zone
+            const cp1x = 150 + (i * 23) % 160;
+            const cp1y = yStart - 80 - Math.cos(i * 0.9) * 60;
 
-            return `M ${x0} ${y0} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x3} ${y3}`;
+            // ── Second control: below center, pulling the curve downward ──
+            // This is the "wave trough" — paths dip below the text zone
+            const cp2x = 400 + (i * 17) % 180;
+            const cp2y = yStart + 100 + t * 150 + Math.sin(i * 0.7) * 50;
+
+            // ── Midpoint: right-of-center, well below text ──
+            const mx = 600 + (i * 11) % 120;
+            const my = 550 + t * 200 + Math.cos(i * 1.4) * 40;
+
+            // ── Final sweep controls: pull toward bottom-right exit ──
+            const cp3x = 750 + (i * 7) % 100;
+            const cp3y = my + 80 + t * 60 + Math.sin(i * 0.6) * 30;
+
+            // ── End point: off-screen bottom-right ──
+            const xEnd = 1050 + Math.random() * 80;
+            const yEnd = 850 + t * 200 + Math.cos(i * 0.8) * 50;
+
+            return `M ${x0.toFixed(0)} ${yStart.toFixed(0)} `
+                + `C ${cp1x.toFixed(0)} ${cp1y.toFixed(0)}, `
+                +   `${cp2x.toFixed(0)} ${cp2y.toFixed(0)}, `
+                +   `${mx.toFixed(0)} ${my.toFixed(0)} `
+                + `S ${cp3x.toFixed(0)} ${cp3y.toFixed(0)}, `
+                +   `${xEnd.toFixed(0)} ${yEnd.toFixed(0)}`;
         }
 
-        // Two mirrored groups
-        for (let group = 0; group < 2; group++) {
-            const g = document.createElementNS(svgNS, 'g');
-            if (group === 1) {
-                g.setAttribute('transform', 'translate(1000, 0) scale(-1, 1)');
-            }
-            svg.appendChild(g);
+        // Single group — one direction only, no mirroring
+        for (let i = 0; i < PATH_COUNT; i++) {
+            const path = document.createElementNS(svgNS, 'path');
+            path.setAttribute('d', generatePathD(i, PATH_COUNT));
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke-linecap', 'round');
 
-            for (let i = 0; i < PATH_COUNT; i++) {
-                const path = document.createElementNS(svgNS, 'path');
-                path.setAttribute('d', generatePathD(i, PATH_COUNT, group * 3.7));
-                path.setAttribute('fill', 'none');
-                path.setAttribute('stroke-linecap', 'round');
+            // Mid-weight strokes: 0.9 – 3.75 (halfway between old thin and thick)
+            const strokeWidth = 0.9 + (i / PATH_COUNT) * 2.85;
+            path.setAttribute('stroke-width', strokeWidth.toFixed(2));
 
-                // THICK strokes — range 1.5 to 6 (viewBox units)
-                const strokeWidth = 1.5 + (i / PATH_COUNT) * 4.5;
-                path.setAttribute('stroke-width', strokeWidth.toFixed(1));
+            // Opacity range: 0.08 – 0.35
+            const baseOpacity = 0.08 + (i / PATH_COUNT) * 0.27;
+            path.dataset.baseOpacity = baseOpacity.toFixed(3);
 
-                // Store opacity for color application
-                // High contrast range: 0.08 to 0.40
-                const baseOpacity = 0.08 + (i / PATH_COUNT) * 0.32;
-                path.dataset.baseOpacity = baseOpacity.toFixed(3);
-
-                g.appendChild(path);
-                allPaths.push(path);
-            }
+            svg.appendChild(path);
+            allPaths.push(path);
         }
 
-        // Set colors
         applyPathColors();
 
-        // ── Animate ONLY stroke-dashoffset — NO opacity changes ──
-        // Paths stay permanently visible at their base opacity.
-        // Only the dash pattern slides along the curve.
+        // ── Animate stroke-dashoffset only (no opacity flicker) ──
         const styleEl = document.createElement('style');
         let css = '';
 
         allPaths.forEach((p, idx) => {
-            const len = p.getTotalLength ? p.getTotalLength() : 2200;
+            const len = p.getTotalLength ? p.getTotalLength() : 2400;
 
-            // Visible portion = 50% of path, gap = 50%
-            p.style.strokeDasharray = `${len * 0.5} ${len * 0.5}`;
+            // Visible dash = 45% of path length
+            p.style.strokeDasharray = `${(len * 0.45).toFixed(0)} ${(len * 0.55).toFixed(0)}`;
 
-            const duration = 22 + (idx % 13) * 1.4;   // 22–40 s
-            const delay = -(idx * 0.6);                // pre-stagger
+            const duration = 24 + (idx % 11) * 1.6;  // 24–41 s
+            const delay = -(idx * 0.9);               // pre-stagger
 
-            const name = `bgPath${idx}`;
-            css += `
-@keyframes ${name} {
-  from { stroke-dashoffset: ${len.toFixed(0)}; }
-  to   { stroke-dashoffset: ${(-len).toFixed(0)}; }
-}
-`;
+            const name = `wave${idx}`;
+            // Animate from fully offset (hidden) to negative (fully passed through)
+            css += `@keyframes ${name}{from{stroke-dashoffset:${len.toFixed(0)}}to{stroke-dashoffset:${(-len).toFixed(0)}}}\n`;
+
             p.style.animation = `${name} ${duration.toFixed(1)}s linear ${delay.toFixed(1)}s infinite`;
         });
 
@@ -211,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Path color helper — theme-aware ──
     function applyPathColors() {
         const isLight = document.documentElement.classList.contains('light-mode');
-        // Dark: bright amber on near-black   Light: deep warm brown on cream
         const rgb = isLight ? '120, 90, 20' : '210, 175, 105';
 
         allPaths.forEach(p => {
