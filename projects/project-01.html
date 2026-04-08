@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Title — Vincent</title>
+    <title>Four-Bar Mechanism — Vincent</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -23,138 +23,150 @@
 
     <!-- ── Project Header ── -->
     <header class="project-hero">
-        <div class="project-meta">Project 01 &middot; Feb 2026</div>
-        <h1>First Project Test</h1>
-        <p class="subtitle">A brief subtitle or one-sentence summary that sets up the project scope and challenge.</p>
+        <div class="project-meta">Project 04 &middot; Apr 2026</div>
+        <h1>Four-Bar Mechanism Motion Analysis</h1>
+        <p class="subtitle">Building, constraining, and analyzing a planar four-bar linkage in SolidWorks Motion — from redundant joints to torque and power calculations.</p>
         <div class="project-tags">
-            <span>Arduino</span>
-            <span>Motor Control</span>
-            <span>PID Tuning</span>
+            <span>SolidWorks</span>
+            <span>Motion Analysis</span>
+            <span>Four-Bar Mechanism</span>
+            <span>Kinematics</span>
         </div>
     </header>
 
     <!-- ── Hero Image ── -->
     <div class="hero-image">
-        <img src="../assets/placeholder.svg" alt="Project hero image">
+        <img src="../assets/fourbar-assembly-traces.png" alt="Four-bar mechanism assembly with coupler trace paths">
     </div>
 
-    <!-- ══════════════════════════════════════════════════════
-         ARTICLE BODY — Copy/paste blocks as needed.
-         See SPEC.md for the full block reference.
-    ══════════════════════════════════════════════════════ -->
+    <!-- ── Article Body ── -->
     <article class="article">
 
         <h2>Overview</h2>
 
-        <p>Write your project overview here. Explain the motivation, constraints, and your approach.</p>
+        <p>A four-bar linkage is one of the simplest closed-loop mechanisms — four rigid links connected by revolute joints, with one link fixed as the ground. Despite its simplicity, the four-bar produces complex coupler curves and is the basis for countless real-world machines, from windshield wipers to locomotive wheels.</p>
 
-        <p>You can use <strong>bold text</strong> for emphasis and <code>inline code</code> for variables or function names.</p>
+        <p>This project involved assembling a four-bar mechanism in SolidWorks (Bearing, Crank, Extension, and Rocker, with bearings spaced 130 mm apart), resolving joint redundancies for accurate motion simulation, and then running a full kinematic and dynamic analysis — velocity traces, motor torque under gravity, bearing reaction forces, and power requirements at higher speeds.</p>
 
         <div class="divider"></div>
 
-        <h2>Design & Analysis</h2>
+        <h2>Assembly &amp; Joint Configuration</h2>
 
-        <p>Describe your design process, calculations, or analytical work here.</p>
+        <p>The mechanism consists of five components: two fixed bearings (Bearing and NewBearing, 130 mm apart on the ground), a Crank driven by a rotary motor, an Extension acting as the coupler link, and a Rocker connecting the coupler back to the second bearing.</p>
 
-        <!-- MATH (display) -->
-        <div class="math-block">
-            $$\tau = J\ddot{\theta} + b\dot{\theta} + mgl\sin(\theta)$$
-        </div>
+        <p>Initially, all four connections were modeled as revolute (hinge) joints. When the motion solver checked for redundancies, it found <strong>9 redundant constraints</strong> — the mechanism has 1 degree of freedom, but the hinge joints were over-constraining the planar motion by locking out rotations that should be free in a real physical linkage.</p>
 
-        <p>Inline math works too: $F = ma$ renders inside any paragraph.</p>
-
-        <!-- CALLOUT -->
         <div class="callout">
-            <p><strong>Design note:</strong> Use callout boxes to highlight key insights or constraints.</p>
+            <p><strong>Resolving redundancy:</strong> Two changes brought the redundant constraints from 9 to 0. First, the hinge between Extension and Rocker was replaced with a <strong>concentric mate</strong>, which allows axial sliding and rotation rather than rigidly locking the joint. Second, the hinge between Rocker and NewBearing was suppressed and replaced with a <strong>spherical joint</strong> (point-coincident mate), freeing additional rotational axes. The result: exactly 1 DOF, controlled by a single rotary motor on the Crank.</p>
         </div>
 
-        <h2>Implementation</h2>
+        <div class="divider"></div>
 
-        <p>Walk through your build process, wiring, firmware, etc.</p>
+        <h2>Trace Paths</h2>
 
-        <!-- SINGLE IMAGE -->
+        <p>With a 20 rpm rotary motor applied to the Crank (producing two full revolutions over 6 seconds), trace paths were plotted at three points along the Extension link — at ¼, ½, and ¾ of its length.</p>
+
         <figure>
-            <img src="../assets/placeholder.svg" alt="Descriptive alt text">
-            <figcaption>Fig 1 — Caption describing the image</figcaption>
+            <img src="../assets/fourbar-assembly-traces.png" alt="Trace paths at quarter, half, and three-quarter points on the Extension link">
+            <figcaption>Fig 1 — Coupler trace paths at ¼, ½, and ¾ length along Extension. The outer curve corresponds to the point closest to the Crank (¼), while the innermost curve traces the point nearest the Rocker (¾).</figcaption>
         </figure>
 
-        <!-- TWO IMAGES SIDE BY SIDE -->
-        <div class="image-grid">
-            <figure>
-                <img src="../assets/placeholder.svg" alt="Left image">
-                <figcaption>Fig 2a — Left caption</figcaption>
-            </figure>
-            <figure>
-                <img src="../assets/placeholder.svg" alt="Right image">
-                <figcaption>Fig 2b — Right caption</figcaption>
-            </figure>
-        </div>
+        <p>The trace paths illustrate how different points on the coupler link follow distinct trajectories. The ¼-length point (nearest the Crank) sweeps the widest arc, closely following the Crank's circular motion. The ¾-length point (nearest the Rocker) traces a tighter, more elliptical path constrained by the Rocker's oscillation. The midpoint path sits between the two — this is the classic coupler curve that makes four-bar mechanisms useful for generating complex output motion from simple rotary input.</p>
 
-        <!-- CODE BLOCK -->
-        <div class="code-block">
-            <div class="code-header">
-                <span class="code-lang">Arduino C++</span>
-                <span class="code-filename">motor_control.ino</span>
-            </div>
-            <pre><code>void loop() {
-    int encoderPos = readEncoder();
-    float error = targetPos - encoderPos;
-    float output = Kp * error + Kd * (error - prevError) / dt;
+        <div class="divider"></div>
 
-    setMotorPWM(constrain(output, -255, 255));
-    prevError = error;
-    delay(10);
-}</code></pre>
-        </div>
+        <h2>Velocity Analysis</h2>
 
-        <h2>Testing & Results</h2>
+        <p>The X and Y linear velocities were extracted for the midpoint of the Extension link and exported to CSV for analysis.</p>
 
-        <p>Discuss your testing methodology and results.</p>
-
-        <!-- VIDEO (YouTube) -->
-        <div class="video-embed">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-        </div>
-
-        <!-- WIDE IMAGE -->
         <div class="wide">
             <figure>
-                <img src="../assets/placeholder.svg" alt="Wide image">
-                <figcaption>Fig 3 — Use .wide for plots or panoramas</figcaption>
+                <img src="../assets/fourbar-velocity-plots.png" alt="X and Y velocity traces for Extension midpoint over two crank cycles">
+                <figcaption>Fig 2 — Linear velocity of the Extension midpoint. Top: X-component (horizontal). Bottom: Y-component (vertical). Two complete crank cycles are shown over 6 seconds at 20 rpm.</figcaption>
             </figure>
         </div>
+
+        <p>Both velocity components are periodic with a 3-second cycle (matching the Crank's 20 rpm rotation). The X-velocity oscillates roughly symmetrically about zero, peaking near ±6 in/sec, indicating the midpoint sweeps left and right with roughly equal speed. The Y-velocity shows an asymmetric profile — the upward and downward phases differ in magnitude, reflecting the non-symmetric geometry of the mechanism (the Rocker side constrains vertical motion differently than the Crank side).</p>
+
+        <div class="divider"></div>
+
+        <h2>Motor Torque Analysis</h2>
+
+        <p>With all parts set to Plain Carbon Steel and gravity enabled, the motor torque required to maintain a constant 20 rpm was plotted over the full 6-second simulation.</p>
+
+        <div class="wide">
+            <figure>
+                <img src="../assets/fourbar-motor-torque.png" alt="Motor torque vs time plot showing periodic peaks and valleys">
+                <figcaption>Fig 3 — Motor torque over two full crank cycles (20 rpm, gravity enabled, Plain Carbon Steel).</figcaption>
+            </figure>
+        </div>
+
+        <h3>(a) Maximum Motor Torque</h3>
+
+        <p>The maximum motor torque is <strong>6.00 lbf·in</strong>, occurring at t = 1.32 s in the first cycle and t = 4.32 s in the second cycle.</p>
+
+        <h3>(b) Crank Angle at Maximum Torque</h3>
+
+        <p>Using the angular displacement data, the crank angle at peak torque is <strong>68.4°</strong> in both cycles. At this position the Crank is pushing the mechanism's mass upward against gravity through its most demanding configuration — the combined weight of Extension and Rocker is being lifted with poor mechanical advantage.</p>
+
+        <h3>(c) Maximum Vertical Force on Bearings</h3>
+
+        <div class="image-grid">
+            <figure>
+                <img src="../assets/fourbar-bearing-force.png" alt="Vertical reaction force on Bearing vs time">
+                <figcaption>Fig 4a — Vertical reaction force on Bearing</figcaption>
+            </figure>
+            <figure>
+                <img src="../assets/fourbar-newbearing-force.png" alt="Vertical reaction force on NewBearing vs time">
+                <figcaption>Fig 4b — Vertical reaction force on NewBearing</figcaption>
+            </figure>
+        </div>
+
+        <p>The maximum vertical reaction force on <strong>Bearing is ~4.0 N</strong> and on <strong>NewBearing is ~2.9 N</strong>. Both peaks occur at the start of each cycle (t ≈ 0, 3, 6 s), which coincides with transient effects as the mechanism passes through its starting configuration. The steady-state peaks within each cycle are lower (~1.1–1.5 N), representing the forces during continuous operation.</p>
+
+        <h3>(d) Minimum Motor Power at 600 rpm</h3>
+
+        <p>To determine the minimum power required at 600 rpm, the simulation was re-run at the higher speed. The steady-state maximum torque at 600 rpm is <strong>74.6 lbf·in</strong> (significantly higher than at 20 rpm due to inertial forces scaling with $\omega^2$). Converting to SI and computing power:</p>
+
+        <div class="math-block">
+            $$\omega = 600 \times \frac{2\pi}{60} = 62.83 \text{ rad/s}$$
+        </div>
+
+        <div class="math-block">
+            $$\tau_{max} = 74.6 \text{ lbf·in} \times 0.113 \frac{\text{N·m}}{\text{lbf·in}} = 8.43 \text{ N·m}$$
+        </div>
+
+        <div class="math-block">
+            $$P_{min} = \tau_{max} \times \omega = 8.43 \times 62.83 \approx 530 \text{ W} \approx 0.71 \text{ hp}$$
+        </div>
+
+        <p>The minimum motor power required is approximately <strong>530 W (0.71 hp)</strong>. This is a minimum because the motor must be able to supply the peak torque demand at any point in the cycle while maintaining constant angular velocity.</p>
+
+        <h3>(e) Negative Motor Torque</h3>
+
+        <p>Looking at the torque plot, the motor torque drops to near zero (~0.01 lbf·in) but remains positive throughout the cycle. In a more general case — or with different mechanism geometry — negative torque values indicate that the motor must actively <strong>resist</strong> the mechanism's motion rather than drive it. This occurs when gravity is pulling the links downward in a way that would accelerate the Crank beyond the target speed. The motor effectively acts as a brake during these phases, absorbing energy rather than supplying it.</p>
+
+        <p>In this specific mechanism, the torque stays positive because the gravitational loads are relatively small at 20 rpm — the motor always needs to push to maintain speed, though the effort varies significantly through the cycle. At higher speeds (600 rpm), the inertial forces dominate and negative torque regions become more pronounced as the mechanism's momentum carries the Crank through portions of the cycle.</p>
+
+        <div class="divider"></div>
 
         <h2>Reflection</h2>
 
-        <p>Wrap up with what worked, what you'd change, and what you learned.</p>
+        <p>This project reinforced the difference between a geometrically correct assembly and a dynamically valid simulation. The mechanism looked right with all-hinge joints, but the 9 redundant constraints would have produced unreliable force and torque results. Understanding <em>why</em> a concentric mate and a spherical joint resolve those redundancies — not just that they do — is key to building trustworthy simulations of any closed-loop mechanism.</p>
 
-        <!-- FILE DOWNLOAD -->
-        <a href="../assets/example-report.pdf" class="file-download" download>
-            <div class="file-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="12" y1="18" x2="12" y2="12"/>
-                    <polyline points="9 15 12 18 15 15"/>
-                </svg>
-            </div>
-            <div class="file-info">
-                <div class="file-name">Full Report — Project_01_Report.pdf</div>
-                <div class="file-size">PDF · 2.4 MB</div>
-            </div>
-        </a>
+        <p>The torque analysis also highlighted how dramatically operating conditions change with speed. The same mechanism that needs 6 lbf·in at 20 rpm demands 74.6 lbf·in at 600 rpm — a 12× increase driven by inertial forces that scale with the square of angular velocity. Any real motor selection would need to account for this nonlinear scaling.</p>
 
     </article>
 
     <!-- ── Prev / Next ── -->
     <nav class="project-nav">
-        <a href="project-01.html">
-            <span class="nav-label">&larr; Previous</span>
-            <span class="nav-title">Previous Project Title</span>
-        </a>
         <a href="project-03.html">
+            <span class="nav-label">&larr; Previous</span>
+            <span class="nav-title">Previous Project</span>
+        </a>
+        <a href="project-05.html">
             <span class="nav-label">Next &rarr;</span>
-            <span class="nav-title">Next Project Title</span>
+            <span class="nav-title">Next Project</span>
         </a>
     </nav>
 
