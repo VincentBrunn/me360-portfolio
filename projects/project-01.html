@@ -79,12 +79,12 @@
 
         <p>The X and Y linear velocities were extracted for the midpoint of the Extension link and exported to CSV for analysis.</p>
 
-        <div class="wide">
+
             <figure>
                 <img src="../assets/fourbar-velocity-plots.png" alt="X and Y velocity traces for Extension midpoint over two crank cycles">
                 <figcaption>Fig 2 — Linear velocity of the Extension midpoint. Top: X-component (horizontal). Bottom: Y-component (vertical). Two complete crank cycles are shown over 6 seconds at 20 rpm.</figcaption>
             </figure>
-        </div>
+
 
         <p>Both velocity components are periodic with a 3-second cycle (matching the Crank's 20 rpm rotation). The X-velocity oscillates roughly symmetrically about zero, peaking near ±6 in/sec, indicating the midpoint sweeps left and right with roughly equal speed. The Y-velocity shows an asymmetric profile — the upward and downward phases differ in magnitude, reflecting the non-symmetric geometry of the mechanism (the Rocker side constrains vertical motion differently than the Crank side).</p>
 
@@ -94,12 +94,12 @@
 
         <p>With all parts set to Plain Carbon Steel and gravity enabled, the motor torque required to maintain a constant 20 rpm was plotted over the full 6-second simulation.</p>
 
-        <div class="wide">
+     
             <figure>
                 <img src="../assets/fourbar-motor-torque.png" alt="Motor torque vs time plot showing periodic peaks and valleys">
                 <figcaption>Fig 3 — Motor torque over two full crank cycles (20 rpm, gravity enabled, Plain Carbon Steel).</figcaption>
             </figure>
-        </div>
+ 
 
         <h3>(a) Maximum Motor Torque</h3>
 
@@ -111,16 +111,17 @@
 
         <h3>(c) Maximum Vertical Force on Bearings</h3>
 
-        <div class="image-grid">
+
             <figure>
                 <img src="../assets/fourbar-bearing-force.png" alt="Vertical reaction force on Bearing vs time">
                 <figcaption>Fig 4a — Vertical reaction force on Bearing</figcaption>
             </figure>
+        
             <figure>
                 <img src="../assets/fourbar-newbearing-force.png" alt="Vertical reaction force on NewBearing vs time">
                 <figcaption>Fig 4b — Vertical reaction force on NewBearing</figcaption>
             </figure>
-        </div>
+
 
         <p>The maximum vertical reaction force on <strong>Bearing is ~4.0 N</strong> and on <strong>NewBearing is ~2.9 N</strong>. Both peaks occur at the start of each cycle (t ≈ 0, 3, 6 s), which coincides with transient effects as the mechanism passes through its starting configuration. The steady-state peaks within each cycle are lower (~1.1–1.5 N), representing the forces during continuous operation.</p>
 
@@ -133,7 +134,7 @@
         </div>
 
         <div class="math-block">
-            $$\tau_{max} = 74.6 \text{ lbf·in} \times 0.113 \frac{\text{N·m}}{\text{lbf·in}} = 8.43 \text{ N·m}$$
+            $$\tau_{max} = 74.6 \text{ lbf\cdot in} \times 0.113 \frac{\text{N\cdot m}}{\text{lbf\cdot in}} = 8.43 \text{ N\cdot m}$$
         </div>
 
         <div class="math-block">
