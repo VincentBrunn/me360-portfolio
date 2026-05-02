@@ -62,13 +62,17 @@
 
         <p>The first step was sketching out how to convert motor rotation into linear cart travel while keeping the platform stable enough for the bar. We explored a few layouts before settling on a rear-wheel-drive belt transmission.</p>
 
-        <!-- TODO: Replace with scan/photo of concept sketches, or use generated SVG diagrams -->
         <figure>
-            <img src="../assets/placeholder.svg" alt="Concept sketch showing belt-driven cart layout — motor, timing belt, rear axle with pulley, unpowered front axle, flat platform for bar">
-            <figcaption>Fig 1 — Concept sketch: belt-driven rear-wheel-drive cart with unpowered front axle</figcaption>
+            <img src="../assets/cart-concept-side.svg" alt="Side-view concept sketch showing single plywood platform with 8020 bar on top, motor mounted underneath center, belt to rear axle pulley, front axle unpowered">
+            <figcaption>Fig 1a — Concept sketch (side view): bar sits directly on the platform, all components underneath</figcaption>
         </figure>
 
-        <p>The chosen design uses a 12V gear motor connected via timing belt to a pulley on the rear axle, which drives both rear wheels. The front axle is unpowered — it sits in bearings and supports free-spinning wheels. The 8020 bar stands on a flat platform mounted above the chassis.</p>
+        <figure>
+            <img src="../assets/cart-bottom-view.svg" alt="Bottom-view schematic showing battery at front, motor centered with encoder, L298N driver and Arduino UNO to one side, Wago connectors, timing belt to rear axle pulley, pillow blocks with bearings and shaft collars on both axles, flanged wheels">
+            <figcaption>Fig 1b — Bottom view: component layout with battery, motor, electronics, and belt drive</figcaption>
+        </figure>
+
+        <p>The chosen design uses a 12V gear motor connected via timing belt to a pulley on the rear axle, which drives both rear wheels. The front axle is unpowered — it sits in bearings and supports free-spinning wheels. The 8020 bar stands directly on the flat plywood platform, with every component mounted underneath to keep the top surface clear.</p>
 
         <div class="callout">
             <p><strong>Design rationale:</strong> A belt drive was chosen over direct gear coupling for its compliance — the slight elasticity in the belt absorbs motor startup transients that would otherwise jolt the bar. It also allows flexible motor placement, keeping the center of gravity low.</p>
@@ -92,7 +96,7 @@
         <p>Consider the bar as a rigid body standing on the platform. When the cart accelerates horizontally at $a$, the bar experiences a pseudo-force $ma$ at its center of gravity. The bar tips when the overturning moment about the tipping edge exceeds the restoring moment from gravity.</p>
 
         <figure>
-            <img src="../assets/placeholder.svg" alt="Free-body diagram of the 8020 bar on the cart platform showing gravitational force mg downward at CG, pseudo-force ma horizontal at CG, and tipping edge at base corner">
+            <img src="../assets/cart-fbd-tipping.svg" alt="Free-body diagram of the 8020 bar on the cart platform showing gravitational force mg downward at CG, pseudo-force ma horizontal at CG, and tipping edge at base corner">
             <figcaption>Fig 2 — Free-body diagram: tipping condition for a freestanding bar on an accelerating platform</figcaption>
         </figure>
 
@@ -141,6 +145,22 @@
         <div class="callout">
             <p><strong>Record simulation time:</strong> [PENDING — insert record time here] for a [PENDING — insert distance] round trip. The simulation confirmed that the analytically-derived tipping threshold of 32.2 in/s² matched the conditions under which the bar toppled in the model.</p>
         </div>
+
+        <!-- TODO: Replace href with actual ZIP file path in assets/ -->
+        <a href="../assets/cart-simulation.zip" class="file-download" download>
+            <div class="file-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <polyline points="9 15 12 18 15 15"/>
+                </svg>
+            </div>
+            <div class="file-info">
+                <div class="file-name">SolidWorks Simulation — CAD Parts, Assembly &amp; Motion Study</div>
+                <div class="file-size">ZIP · [PENDING — insert file size]</div>
+            </div>
+        </a>
 
         <div class="divider"></div>
 
