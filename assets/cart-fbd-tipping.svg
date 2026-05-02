@@ -1,0 +1,72 @@
+<svg width="100%" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg" style="background:#0a0a0a">
+  <style>
+    text { font-family: 'DM Sans', sans-serif; }
+    .t  { font-size: 14px; fill: #e8e4de; }
+    .ts { font-size: 12px; fill: #8a8680; }
+    .th { font-size: 14px; fill: #e8e4de; font-weight: 500; }
+    .leader { stroke: #5a5650; stroke-width: 0.5; stroke-dasharray: 3 3; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="140" y="350" width="400" height="12" rx="2" fill="none" stroke="#e8e4de" stroke-width="1"/>
+  <line x1="140" y1="362" x2="150" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="160" y1="362" x2="170" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="180" y1="362" x2="190" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="200" y1="362" x2="210" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="220" y1="362" x2="230" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="240" y1="362" x2="250" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="260" y1="362" x2="270" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="280" y1="362" x2="290" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="362" x2="310" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="320" y1="362" x2="330" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="340" y1="362" x2="350" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="360" y1="362" x2="370" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="380" y1="362" x2="390" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="400" y1="362" x2="410" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="420" y1="362" x2="430" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="440" y1="362" x2="450" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="460" y1="362" x2="470" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="480" y1="362" x2="490" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="500" y1="362" x2="510" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+  <line x1="520" y1="362" x2="530" y2="372" stroke="#e8e4de" stroke-width="0.5" opacity="0.3"/>
+
+  <rect x="300" y="110" width="40" height="240" rx="2" fill="none" stroke="#e8e4de" stroke-width="1.5"/>
+
+  <circle cx="320" cy="230" r="4" fill="none" stroke="#e8e4de" stroke-width="1"/>
+  <line x1="314" y1="230" x2="326" y2="230" stroke="#e8e4de" stroke-width="0.8"/>
+  <line x1="320" y1="224" x2="320" y2="236" stroke="#e8e4de" stroke-width="0.8"/>
+
+  <line x1="320" y1="240" x2="320" y2="310" stroke="#3B8BD4" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="th" x="332" y="296" fill="#3B8BD4">mg</text>
+
+  <line x1="310" y1="230" x2="220" y2="230" stroke="#E24B4A" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="th" x="240" y="222" fill="#E24B4A">ma</text>
+
+  <circle cx="300" cy="350" r="5" fill="none" stroke="#EF9F27" stroke-width="1.5"/>
+  <circle cx="300" cy="350" r="1.5" fill="#EF9F27"/>
+
+  <line class="leader" x1="300" y1="350" x2="160" y2="400"/>
+  <text class="ts" x="80" y="404">Tipping edge</text>
+
+  <line x1="360" y1="350" x2="360" y2="230" stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.5"/>
+  <line x1="355" y1="350" x2="365" y2="350" stroke="#e8e4de" stroke-width="0.5" opacity="0.5"/>
+  <line x1="355" y1="230" x2="365" y2="230" stroke="#e8e4de" stroke-width="0.5" opacity="0.5"/>
+  <text class="ts" x="374" y="294">h_cg = 6 in</text>
+
+  <line x1="300" y1="390" x2="320" y2="390" stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.5"/>
+  <line x1="300" y1="385" x2="300" y2="395" stroke="#e8e4de" stroke-width="0.5" opacity="0.5"/>
+  <line x1="320" y1="385" x2="320" y2="395" stroke="#e8e4de" stroke-width="0.5" opacity="0.5"/>
+  <text class="ts" x="310" y="410" text-anchor="middle">w/2 = 0.5 in</text>
+
+  <line x1="460" y1="355" x2="530" y2="355" stroke="#e8e4de" stroke-width="1.5" marker-end="url(#arrow)" opacity="0.5"/>
+  <text class="ts" x="495" y="345" text-anchor="middle">Cart accel. (a)</text>
+
+  <text class="ts" x="460" y="140">Tipping when:</text>
+  <text class="ts" x="460" y="160">ma · h_cg > mg · w/2</text>
+  <text class="ts" x="460" y="186">a_max = g · w/(2·h_cg)</text>
+  <text class="th" x="460" y="210" fill="#c8a45e">= 32.2 in/s²</text>
+</svg>
