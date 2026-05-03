@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Challenge — Vincent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- ── Nav ── -->
+    <nav class="topnav">
+        <a href="../index.html" class="site-name">Vincent</a>
+        <a href="../index.html">&larr; All Projects</a>
+    </nav>
+
+    <!-- ── Project Header ── -->
+    <header class="project-hero">
+        <div class="project-meta">Project 04 &middot; Feb 2026</div>
+        <h1>Container Challenge</h1>
+        <p class="subtitle">Designing a four-bar linkage to automatically sweep and dump a trash container's receiving tray.</p>
+        <div class="project-tags">
+            <span>Linkage Design</span>
+            <span>Four-Bar Mechanism</span>
+            <span>SolidWorks</span>
+        </div>
+    </header>
+
+    <!-- ── Hero Image ── -->
+    <div class="hero-image">
+        <img src="../assets/unnamed.png" alt="Math Illustrations linkage construction showing perpendicular bisector method for pivot point synthesis">
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <article class="article">
+
+        <h2>Overview</h2>
+
+        <p>The goal of this project was to design a linkage mechanism for an automated trash container. Users deposit trash onto a tray on top of the container, and the linkage sweeps the tray away and dumps its contents through an opening at the back — all without the mechanism passing through the container body. The container is 35 cm wide and 40 cm tall (35 cm body plus a 5 cm tray section on top), and all pivot points must sit on the container's sides with no external extensions.</p>
+
+        <p>The core deliverable was determining the pivot point locations and link lengths for a four-bar linkage that moves the tray between two positions: <strong>Position A</strong> (tray horizontal on top, receiving trash) and <strong>Position B</strong> (tray rotated to the back, dumping trash into the rear opening).</p>
+
+        <div class="callout">
+            <p><strong>Note:</strong> The underlying linkage geometry for this project was developed by a classmate using Math Illustrations, with professor approval. The SolidWorks model was personalized (part colors and appearances) for this submission. All measurements shown below were taken directly from the assembly.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <h2>Linkage Synthesis</h2>
+
+        <p>The pivot points were found using a two-position graphical synthesis method. Two design points on the tray (labeled A, B, and C in the diagram) were defined in both the receiving and dumping positions. The perpendicular bisectors of each point's displacement between the two positions were constructed, and their intersections yielded the ground pivot locations P1 and P2. This is a standard approach for designing a four-bar linkage that guides a rigid body through two prescribed positions.</p>
+
+        <figure>
+            <img src="../assets/unnamed.png" alt="Math Illustrations construction showing perpendicular bisectors used to find pivot points P1 and P2">
+            <figcaption>Fig 1 — Perpendicular bisector construction in Math Illustrations, showing the two tray positions and the resulting pivot points P1 and P2</figcaption>
+        </figure>
+
+        <div class="divider"></div>
+
+        <h2>Pivot Points &amp; Link Lengths</h2>
+
+        <p>All measurements below were taken from the SolidWorks assembly using the Measure tool. The assembly was built in IPS (inch-pound-second) units, so raw values are reported in inches.</p>
+
+        <h3>Pivot Point Locations</h3>
+
+        <p>Both ground pivots are measured from the top-left corner of the container as the origin.</p>
+
+        <figure>
+            <img src="../assets/P1_Distance.png" alt="SolidWorks measure tool showing P1 location: dX = 10.19 in, dY = 9.85 in from the top-left origin">
+            <figcaption>Fig 2 — P1 location: dX = 10.19 in, dY = 9.85 in from origin</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../assets/P2_Distance.png" alt="SolidWorks measure tool showing P2 location: dX = 4.78 in, dY = 4.29 in from the top-left origin">
+            <figcaption>Fig 3 — P2 location: dX = 4.78 in, dY = 4.29 in from origin</figcaption>
+        </figure>
+
+        <h3>Link Lengths</h3>
+
+        <figure>
+            <img src="../assets/P1-B.png" alt="SolidWorks measure tool showing link P1 to B center distance of 15.46 in">
+            <figcaption>Fig 4 — Link P1→B: 15.46 in (39.3 cm)</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../assets/P2-C.png" alt="SolidWorks measure tool showing link P2 to C center distance of 13.24 in">
+            <figcaption>Fig 5 — Link P2→C: 13.24 in (33.6 cm)</figcaption>
+        </figure>
+
+        <figure>
+            <img src="../assets/A-B.png" alt="SolidWorks measure tool showing coupler bar A to B distance of 14.96 in">
+            <figcaption>Fig 6 — Coupler bar A→B: 14.96 in (38.0 cm)</figcaption>
+        </figure>
+
+        <div class="divider"></div>
+
+        <h2>Motion Demonstration</h2>
+
+        <p>The video below shows the SolidWorks motion study of the linkage actuating from Position A (tray receiving) to Position B (tray dumping) and back. The tray sweeps around the outside of the container without passing through the body, and tilts to dump contents into the rear opening.</p>
+
+        <div class="video-embed">
+            <iframe src="https://drive.google.com/file/d/1WfAm8J4VfotS2GdpAYILAHT0uxVDuk0C/preview" allow="autoplay" allowfullscreen></iframe>
+        </div>
+
+    </article>
+
+    <!-- ── Prev / Next ── -->
+    <nav class="project-nav">
+        <a href="project-03.html">
+            <span class="nav-label">&larr; Previous</span>
+            <span class="nav-title">Cartesian Motion System</span>
+        </a>
+    </nav>
+
+    <footer>
+        Vincent &middot; ME360 &middot; Boston University &middot; 2026
+    </footer>
+
+    <script src="../js/site.js"></script>
+
+</body>
+</html>
